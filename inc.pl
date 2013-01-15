@@ -1,6 +1,6 @@
 # Main directory file for log.pl site 
 
-# All the directories will end with "/" 
+# All the directories will end without "/" 
 
 # Location of the log files directory
 $log_dir = "/mnt/drop-log/release/compulab/console";

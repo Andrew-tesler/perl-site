@@ -1,15 +1,13 @@
 #!/usr/bin/perl 
 use CGI;
 
+#
 require "/var/www/perl/inc.pl";
 #require "/var/www/perl/s.log.pl";
 
 # create an instance of the CGI object 
 $cgiobject = new CGI;
-$greeting="Please enter your search term by serial# or by error#";
-
-#enter the checked Devices here.:
-
+$greeting="Please enter your search";
 
 print $cgiobject->header;
 print $cgiobject->start_html(-title=>'ATP LOGS',-bgcolor=>'008980');
@@ -58,7 +56,8 @@ sub output_form()
     $theform.=$cgiobject->scrolling_list(-name=>'products',
                                          -values=>[@products],                                 
                                          -size=>8,
-                                         -multiple=>'false');
+                                        -multiple=>'false');
+   #Create search by devices choose box                                     
    $theform.="<BR>Errors:<BR>";  
    $theform.=$cgiobject-> scrolling_list(-name=>'tested_device',
 			            	-values=>[@tests],
@@ -68,6 +67,7 @@ sub output_form()
                             -labels=>\%labels,
                             -attributes=>\%attributes);
                             
+    # Create search by batch lines                         
     $theform.="<BR>Batch Line<BR>";
     $theform.=$cgiobject->scrolling_list(-name=>'batch_line',
                                          -values=>[@batch],
@@ -89,8 +89,6 @@ sub output_form()
    
    $theform.=$cgiobject->endform;                                                           
    print $theform
-   
-   
  }      
 
 
