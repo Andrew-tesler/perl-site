@@ -1,10 +1,10 @@
 #!/usr/bin/perl 
 
-require "/var/www/perl/inc.pl";
+#require "/var/www/perl/inc.pl";
 
 
 sub return_product_batch {
-my $src = "$bo_dir$bo";
+my $src = "$bo_dir/bo.db";
  open my $fh, $src;
  my @lines = sort grep //i, <$fh>;
  close $fh;

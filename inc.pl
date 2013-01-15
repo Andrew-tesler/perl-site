@@ -3,14 +3,13 @@
 # All the directories will end with "/" 
 
 # Location of the log files directory
-$log_dir = "/mnt/drop-log/release/compulab/console/";
+$log_dir = "/mnt/drop-log/release/compulab/console";
 
 # Location of the bo.db file 
-$bo_dir = "/home/andrew/Desktop/";
+$bo_dir = "/home/andrew/Desktop";
 
 # bo.db file name and the location 
-
-$bo_db = $bo_dir."/bo.db";
+$bo_db = $bo_dir."bo.db";
 
 # The real locations on the server
 
