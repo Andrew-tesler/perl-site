@@ -1,9 +1,9 @@
 #!/usr/bin/perl 
 
 require "inc.pl";
-my $bo = "/bo.db";
+#my $bo= "/bo.db";
 
- sub return_product_batch {
+sub return_product_batch {
 my $src = "$bo_dir$bo";
  open my $fh, $src;
  my @lines = sort grep //i, <$fh>;
