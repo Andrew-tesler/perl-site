@@ -1,7 +1,7 @@
 #!/usr/bin/perl 
 
-#require "/var/www/perl/inc.pl";
-#my $bo= "bo.db";
+require "/var/www/perl/inc.pl";
+
 
 sub return_product_batch {
 my $src = "$bo_dir$bo";
