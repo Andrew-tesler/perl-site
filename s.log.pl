@@ -1,6 +1,6 @@
 #!/usr/bin/perl 
 
-require "/var/www/perl/inc.pl";
+#require "/var/www/perl/inc.pl";
 
 
 sub return_product_batch {
