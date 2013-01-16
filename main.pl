@@ -283,12 +283,6 @@ sub print_tables {
               }
  
 
-
-#print_tables;
-#serial_numbers_batch;
-#open_files $serial;
-
-
 # Flow command for the script with some if else commands
 print_time;
 
