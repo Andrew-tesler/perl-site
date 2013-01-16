@@ -3,3 +3,5 @@ This repo is for testing and implimitation of perl based site.
 Working dir: /var/www/perl
 
 In the directory: "/var/www/Shared" located all the files i want to share at work.
+
+Added logs display site.
