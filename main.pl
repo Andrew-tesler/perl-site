@@ -143,7 +143,7 @@ sub print_formated_batch {
 # Return all the log files in the given dir TODO - fix that the script won't work without it
 sub find_log {
 	$number = @_[0];
-	opendir (DIR, "$log_dir$$number") || die(print "Cannot open directory (look in the find_log script)");
+	#opendir (DIR, "$log_dir$$number") || die(print "Cannot open directory (look in the find_log script)");
 	 @numbers= grep {/$number.*.*/} readdir(DIR);
 
 	#print "$log_dir$serial"."<br>";
