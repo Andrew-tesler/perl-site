@@ -74,7 +74,20 @@ sub local_time {
     return @numbers;
  }
  
- 
+ # will return all the files that located in given dir need to ender the full serial number
+ sub find_file {
+	 $number = @_[0];  
+	 $dir = @_[1];
+	 $dir = "$dir$number";
+	 print "<br><br>",$dir."<br>";
+	 opendir (DIR, "$dir") || (print "Cannot open directory (look in the find_log script)");
+	 @files= grep {/$number/} readdir(DIR);
+	 @files = sort {$a cmp $b} @files;
+	 closedir DIR;
+	 print @files,"<br>";
+	 return @files;
+	 
+}
 
 
 
@@ -353,7 +366,10 @@ debug;
 print local_time;
 @i = find_dir $serial;
 
+
+
 foreach $n(@i) {
-print $n;
+print "Searching in dir: ","$n";
+find_file $n, $log_dir;
 print "<br>";
 }
