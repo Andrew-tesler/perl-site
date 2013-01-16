@@ -52,19 +52,12 @@ print $q->p("Summ:                 $summ");
 
 
 
-#~ 
-#~ #print $q->b("$serial");
-#~ #print $q->p("$display_logs");
-#~ #print $q->p("$error");
-#~ 
-#~ 
-#~ # local time 
 sub local_time {
 	$now = localtime();
 	return $now;
  }
  
- # Accept number and search for the dir starting by that number
+ # Accept number and search for the dir starting by that number (Enter number);
  sub find_dir {
 	$number = @_[0];
 	opendir (DIR, "$log_dir") || (print "Cannot open directory (look in the find_log script)");
@@ -74,20 +67,36 @@ sub local_time {
     return @numbers;
  }
  
- # will return all the files that located in given dir need to ender the full serial number
+ # will return all the files that located in given dir. need to enter the full serial number (Enter serial number from find_dir)
  sub find_file {
 	 $number = @_[0];  
-	 $dir = @_[1];
-	 $dir = "$dir$number";
-	 print "<br><br>",$dir."<br>";
+	 $dir = $log_dir;
+	 $dir = "$dir$number";  # Dir for the full path to the files.   
 	 opendir (DIR, "$dir") || (print "Cannot open directory (look in the find_log script)");
 	 @files= grep {/$number/} readdir(DIR);
 	 @files = sort {$a cmp $b} @files;
-	 closedir DIR;
-	 print @files,"<br>";
-	 return @files;
-	 
+	 closedir DIR;;
+	 return @files
 }
+
+ # Return the line of the given file and search string. Parse full log number ( Enter Serial number from find dir and the file from find_file )
+ sub find_line {
+	 $dir = @_[0];         # Dir for search (full serial number)
+	 $file = @_[1];        # Log file under search (log file with the *.console ending)
+	 $string = @_[2];      # String for the search
+	 $file = "$log_dir$dir/$file";
+	 while( my $line = $file->getline() ) {
+        print $line;
+	}
+	 #open my $fh, $file || (print "Cant open file refer to find_line script for debug"); 
+	 #my @lines = sort grep /\Q$string1/i, <$fh>;
+	 #close $fh;
+	 #return @lines;
+ }
+ 
+ # Read in line at a time
+ 
+	 
 
 
 
@@ -370,6 +379,11 @@ print local_time;
 
 foreach $n(@i) {
 print "Searching in dir: ","$n";
-find_file $n, $log_dir;
+@z=find_file $n;
+
+foreach $z(@z) {
+	print "<br>found the file: $z";
+	print find_line $n,$z,"SBC";
+}
 print "<br>";
 }
