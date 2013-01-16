@@ -2,6 +2,7 @@
 
 # All the directories will end without "/" 
 
+
 # Location of the log files directory
 $log_dir = "/mnt/drop-log/release/compulab/console";
 

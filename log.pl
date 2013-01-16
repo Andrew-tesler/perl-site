@@ -27,7 +27,7 @@ sub output_form()
  #construct and output the form HTML
  { $theform=$cgiobject->startform(-name=>'searchform',
                                   -method=>'get',
-                                  -action=>'/main.pl');
+                                  -action=>'/main.pl');  # Pay attention to this dir!!!!!! may invoke problems if migrating to new server.
    #create serial# search field
    $theform.="Search SN#: ";
    $theform.=$cgiobject->textfield(-name=>'serial_number',

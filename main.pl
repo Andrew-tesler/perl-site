@@ -22,6 +22,7 @@ $batch_line=$cgiobject->param("batch_line");
 $summ=$cgiobject->param("quick_summary");
 
 
+
 #if user selects all test. paste all the tests to array and remove the all value.
 if (@tested_device[0] eq "All"){
 	@tested_device = @tests;
@@ -143,7 +144,9 @@ sub print_formated_batch {
 # Return all the log files in the given dir TODO - fix that the script won't work without it
 sub find_log {
 	$number = @_[0];
-	#opendir (DIR, "$log_dir$$number") || die(print "Cannot open directory (look in the find_log script)");
+	
+	opendir (DIR, "$log_dir$number") || (print "Cannot open directory (look in the find_log script)");
+	print $log_dir;
 	 @numbers= grep {/$number.*.*/} readdir(DIR);
 
 	#print "$log_dir$serial"."<br>";
@@ -151,7 +154,7 @@ sub find_log {
 	#opendir(IMD, "/home/yourname/www/images/") || die("Cannot open directory"); 
 	#my @numbers = grep {/$number1120610-02228.0.console/}  readdir DIR;
     @numbers = sort {$a cmp $b} @numbers;
-    print @numbers."<br>";
+    print "<br>";
     closedir DIR;
     #return @numbers;
 
