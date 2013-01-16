@@ -17,8 +17,9 @@ $bo_db = $bo_dir."bo.db";
 #$atp_dir = "/var/opt/atp";
 #$bo_dir =  $atp_dir."/config/1";
 
-
+# products tested
 @products = ("fit-PC3","SBC-fit-PC3","intense-PC","FM-LAN","FM-XTD","FM-4U" );
+# Tested devices
 @tests = ("All","CPU","USB","Audio","Thermal","NTP","Update","total time","MAC","Ethernet");
 
 
