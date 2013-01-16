@@ -21,7 +21,8 @@ $display_logs=$cgiobject->param("display_logs");
 $batch_line=$cgiobject->param("batch_line");
 $summ=$cgiobject->param("quick_summary");
 
-#if user selects all test. paste all the tests to arrey and remove the all value.
+
+#if user selects all test. paste all the tests to array and remove the all value.
 if (@tested_device[0] eq "All"){
 	@tested_device = @tests;
 	shift(@tested_device);
@@ -39,7 +40,6 @@ print $q -> h1("ATP logs summary");
 #print $q->p("$display_logs");
 #print $q->p("$error");
 
-#Print the file
 
 # local time 
 sub print_time {
@@ -47,6 +47,7 @@ sub print_time {
 	print $q ->p  ("Now: ",$now);
 }
 
+# Print the file line by line
 sub PrintFile {
    my ($file) = "$log_dir/@_[0]";
    open(FILE, "<$file");
@@ -55,9 +56,11 @@ sub PrintFile {
    }
    close(FILE);
 }
-#return the serial numbers from the given batch
 
- # return the test line given ("file , test to find)
+
+# Return the test line given ("file , test to find)
+#  File to test-
+#  Tests to find
  sub print_test {
  my $string1 = "@_[1]";
  my $src = "$log_dir$serial/@_[0].0.console";
@@ -67,29 +70,33 @@ sub PrintFile {
  return @lines[0];
  }
 
-	
+	# TODO - test if the following line actualy do somthing usefull
 	$temp = print_test $number , "succes";
 	print $temp;
 
-# return the tested functionalaty an OK string if present
+
+# Check if "OK" string is present in specific log (File, Test to find).
  sub check {
     my $tmp=print_test "$_[0]", "$_[1]";
-   @temp =split(/,/,$tmp);
-   return @temp[1];
-
+    @temp =split(/,/,$tmp);
+ return @temp[1];
  }
- # will return the device name
+ 
+ # Check and return the device name in specific log file (File, Test to find) TODO - Check if the script returns the correct string @temp[1] returns the same as "sub check" above
   sub check_device {
     my $tmp=print_test "$_[0]", "$_[1]";
    @temp = split(/:/,$tmp);
    return @temp[1];
  }
-#return the batch line as array
+ 
+# Uses the s.log.pl script for $batch_line
+# Return the batch line corresponding with given log file -TODO - Test if correct 
 sub log_batch_line {
 	@sorted_batch_line = split(/ /,$batch_line,); 
 	return @sorted_batch_line;
 }
 
+# Return the serial numbers from the given batch line
 sub serial_numbers_batch {
 	@temp = log_batch_line;
 	#print "@temp"."<br>";
@@ -126,13 +133,14 @@ sub serial_numbers_batch {
  return @serial_nembers_batch;
 
 }
-# print information regarding the batch line formated
+
+# Print information regarding the batch line formated ("Tested product: configuration: From SN#: Total of: cards"
 sub print_formated_batch {
 	log_batch_line;
 	print @formated = "Tested product: ", @sorted_batch_line[3], "  configuration: ", @sorted_batch_line[4], "  from SN#: ", @sorted_batch_line[0], "  Total of: ", @sorted_batch_line[1], "  cards.<br>"	;
 }
 
-# return the serial file with the .log.* suffix
+# Return all the log files in the given dir TODO - fix that the script won't work without it
 sub find_log {
 	$number = @_[0];
 	opendir (DIR, "$log_dir$$number") || die(print "Cannot open directory (look in the find_log script)");
@@ -150,7 +158,7 @@ sub find_log {
 }
 
 
-# look for the log files begining with the given serial and print them
+# Look for the log files begining with the given serial and print them
 sub open_files {
 	$serial_number = @_[0];
 	#print "Log dir ... ".$log_dir."<br>";
@@ -166,12 +174,11 @@ foreach $n(@serial_number){
 	$i++;
 }
 }
-
 return @serial_number;
 }
 
 
-#Will return succes if pass fail if not & error code or not found if non of the strings found
+# Will return succes if pass fail if not & error code or not found if non of the strings found
 sub check_status {
 	my $result = "";
 $tmp = print_test @_[0] , "success";
@@ -190,13 +197,12 @@ if ((print_test @_[0] , "fail") =~ "fail"){
 else {
 	$result = a({-style=>'Color: #FF0000;'}, "SN: ", @_[0],"   ","Not found failure");
 }
-
 return $result;
 }
 }
 
 
- # print summary (device tested, passed, failed, summary of errors) return the SN and Pass fail next to the file.
+# Print summary (device tested, passed, failed, summary of errors) return the SN and Pass fail next to the file.
 sub quick_summary {
 	$serial_number = @_[0];
 	$times_tested = 1;
@@ -223,13 +229,12 @@ sub quick_summary {
 	}
 
 }
-
 	print "$result", "<br>";
 	print "*****************************************************","<br>";	
 }
 }
 
-#print the file line by line
+# Print the file line by line
 sub print_file {
    $file = "$log_dir$serial/@_[0]";
    print "Printing the following log file:  @_[0]","<br>";
@@ -240,8 +245,8 @@ sub print_file {
    }
    close(FILE);
 }
-
-# The main loops for if with *.log.0 print as is if not complite the files and print them by turn. 
+# The sub for the table represantation of the logs
+# if the file have "console" string print the file as is
 sub print_tables {
 	$serial = @_[0];	
 	if ($serial =~ "console"){
@@ -273,11 +278,8 @@ sub print_tables {
                 $q->Tr([$q->td([$q->b($tops[0]),@tested_device])]),
                 $q->Tr([$q->td([$q->b($tops[1]),@result_device])]),
                 $q->Tr([$q->td([$q->b($tops[2]),@status])]),         
-                ),
-                         
+                ),                      
                }
-     
-
               }
  
 
@@ -286,6 +288,8 @@ sub print_tables {
 #serial_numbers_batch;
 #open_files $serial;
 
+
+# Flow command for the script with some if else commands
 print_time;
 
 if ($print_file =~ "Print file") {
@@ -319,17 +323,3 @@ else {
 	}
 }
 }	
-	
-#quick_summary "$serial";
-
-
-#print check_status @serial_number[0];
- #   print p({-style=>'Color: red;'},'Welcome to Hell');
-#print p({-class=>'Fancy'},'Welcome to the Party');
-
-
-
-#print_formated_batch;
-
-#print check "$serial" , "$tested_device";
-
