@@ -85,9 +85,7 @@ sub local_time {
 	 $file = @_[1];        # Log file under search (log file with the *.console ending)
 	 $string = @_[2];      # String for the search
 	 $file = "$log_dir$dir/$file";
-	 while( my $line = $file->getline() ) {
-        print $line;
-	}
+
 	 #open my $fh, $file || (print "Cant open file refer to find_line script for debug"); 
 	 #my @lines = sort grep /\Q$string1/i, <$fh>;
 	 #close $fh;
@@ -382,8 +380,8 @@ print "Searching in dir: ","$n";
 @z=find_file $n;
 
 foreach $z(@z) {
-	print "<br>found the file: $z";
-	print find_line $n,$z,"SBC";
+	print "<br>found the file: $z<br>";
+	print find_line $n,$z,"SBC<br>";
 }
 print "<br>";
 }
