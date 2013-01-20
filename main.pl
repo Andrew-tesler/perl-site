@@ -1,60 +1,63 @@
 #!/usr/bin/perl 
-use Term::ANSIColor qw(:pushpop);
-use CGI qw/:standard :html3/;
-
-require "/var/www/perl/inc.pl";
-#require "test.logs.pl";
-# create an instance of the CGI object 
-$cgiobject = new CGI;
-$q = new CGI;
-# $query = new CGI;
+ # Use for color text
+ use Term::ANSIColor qw(:pushpop);
+ use CGI qw/:standard :html3/;
+ # All the directories are located in this file
+ require "/var/www/perl/inc.pl";
  
-$log_dir="/mnt/drop-log/release/compulab/console/";
+ #require "test.logs.pl";
+ 
+ # create an instance of the CGI object 
+ #$q = new CGI;
+ $cgiobject =   new CGI;
+ 
+ # Overide for "inc.pl" the original file don't work well TODO- fix inc.pl 
+ $log_dir="/mnt/drop-log/release/compulab/console/";
 
-# grab the values submitted by the user
-$serial=$cgiobject->param("serial_number");
-$error=$cgiobject->param("error_number");
-$product=$cgiobject->param("products");
-$print_file=$cgiobject->param("print_file");
-$display_logs=$cgiobject->param("display_logs");
-@tested_device=$cgiobject->param("tested_device");
-$batch_line=$cgiobject->param("batch_line");
-$summ=$cgiobject->param("quick_summary");
-
-
-
-#if user selects all test. paste all the tests to array and remove the all value.
-if (@tested_device[0] eq "All"){
-	@tested_device = @tests;
-	shift(@tested_device);
-}
-
-
-
-print $q -> header;
-print $q -> start_html(-title => "ATP logs",
-                -bgcolor => "#90EE90",
-                -text => "black");
-print $q -> h1("ATP logs summary");
-
-
-sub debug {
-print $q->p("The serial number is: $serial");
-print $q->p("The log dir is:       $log_dir");
-print $q->p("Error selected:       $error");   
-print $q->p("Product selected:     $product");
-print $q->p("Print file:           $print_file");
-print $q->p("Display logs:         $display_logs");
-print $q->p("Tested device:        @tested_device");
-print $q->p("Batch line:           $batch_line");
-print $q->p("Summ:                 $summ");
-}
+ # grab the values submitted by the user
+ $serial=$cgiobject->		param("serial_number");  # Serial number submited by the user
+ $error=$cgiobject->        param("error_number");   # Error number submited by the user //Not implemented//
+ $product=$cgiobject->      param("products");       # Search by product 
+ $print_file=$cgiobject->   param("print_file");     # Check box if the user want to print the file and look directly at it
+ $display_logs=$cgiobject-> param("display_logs");   # Display the logs //Need further evaluation//
+ @tested_device=$cgiobject->param("tested_device");  # Dispaly in table mode the selected devices only
+ $batch_line=$cgiobject->   param("batch_line");     # Dispaly the batch line of the product
+ $summ=$cgiobject->         param("quick_summary");  # Quick summary of many logs // TODO - How the format will look table or text //
 
 
 
-sub local_time {
+ # If user selects all test. paste all the tests to array and remove the all value.
+ if (@tested_device[0] eq "All"){
+     @tested_device = @tests;
+ 	 shift(@tested_device);
+ }
+
+
+ # Initialize the document
+ print $cgiobject -> header;
+ print $cgiobject -> start_html(-title => "ATP logs",
+                    -bgcolor => "#90EE90",
+                    -text => "black");
+print $cgiobject -> h1("ATP logs summary");
+
+ # Debug sub print the values entered by the user
+ sub debug {	
+	print $cgiobject->p("The serial number is: $serial");
+	print $cgiobject->p("The log dir is:       $log_dir");
+	print $cgiobject->p("Error selected:       $error");   
+	print $cgiobject->p("Product selected:     $product");
+	print $cgiobject->p("Print file:           $print_file");
+	print $cgiobject->p("Display logs:         $display_logs");
+	print $cgiobject->p("Tested device:        @tested_device");
+	print $cgiobject->p("Batch line:           $batch_line");
+	print $cgiobject->p("Summ:                 $summ");
+ } 
+
+
+
+ sub local_time {
 	$now = localtime();
-	return $now;
+	return "The local time is: ". $now;
  }
  
  # Accept number and search for the dir starting by that number (Enter number);
@@ -371,6 +374,7 @@ sub local_time {
 
 debug;
 print local_time;
+print "<br>";
 @i = find_dir $serial;
 
 
@@ -384,4 +388,4 @@ foreach $z(@z) {
 	print find_line $n,$z,"SBC<br>";
 }
 print "<br>";
-}
+}3
