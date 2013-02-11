@@ -1,7 +1,7 @@
 #!/usr/bin/perl 
 use CGI;
 
-#
+
 require "/var/www/perl/inc.pl";
 #require "/var/www/perl/s.log.pl";
 
