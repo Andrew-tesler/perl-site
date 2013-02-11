@@ -63,7 +63,7 @@ print $cgiobject -> h1("ATP logs summary");
  # Accept number and search for the dir starting by that number (Enter number);
  sub find_dir {
 	$number = @_[0];
-	opendir (DIR, "$log_dir") || (print "Cannot open directory (look in the find_log script)");
+	opendir (DIR, "$log_dir") || (print "Cannot open directory (look in the find_dir script)");
 	@numbers= grep {/$number/} readdir(DIR);
     @numbers = sort {$a cmp $b} @numbers;
     closedir DIR;
@@ -75,7 +75,7 @@ print $cgiobject -> h1("ATP logs summary");
 	 $number = @_[0];  
 	 $dir = $log_dir;
 	 $dir = "$dir$number";  # Dir for the full path to the files.   
-	 opendir (DIR, "$dir") || (print "Cannot open directory (look in the find_log script)");
+	 opendir (DIR, "$dir") || (print "Cannot open directory (look in the find_file script)");
 	 @files= grep {/$number/} readdir(DIR);
 	 @files = sort {$a cmp $b} @files;
 	 closedir DIR;;
@@ -89,13 +89,13 @@ print $cgiobject -> h1("ATP logs summary");
 	 $string = @_[2];      # String for the search
 	 $file = "$log_dir$dir/$file";
 
-	 #open my $fh, $file || (print "Cant open file refer to find_line script for debug"); 
-	 #my @lines = sort grep /\Q$string1/i, <$fh>;
-	 #close $fh;
-	 #return @lines;
+	 open $fh, $file || (print "Can't open file refer to find_line script for debug");   # Open the file or print error message
+	 @lines  = <$fh>;																					
+     @grepLine = grep(/^$string/, @lines); 
+     print @grepLine[0];
  }
  
- # Read in line at a time
+
  
 	 
 
@@ -385,7 +385,8 @@ print "Searching in dir: ","$n";
 
 foreach $z(@z) {
 	print "<br>found the file: $z<br>";
-	print find_line $n,$z,"SBC<br>";
+	find_line $n,$z,"MAC";
+	print "<BR>";
 }
 print "<br>";
-}3
+}
