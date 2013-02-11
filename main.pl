@@ -78,7 +78,7 @@ print $cgiobject -> h1("ATP logs summary");
 	 opendir (DIR, "$dir") || (print "Cannot open directory (look in the find_file script)");
 	 @files= grep {/$number/} readdir(DIR);
 	 @files = sort {$a cmp $b} @files;
-	 closedir DIR;;
+	 closedir DIR;
 	 return @files
 }
 
@@ -92,29 +92,22 @@ print $cgiobject -> h1("ATP logs summary");
 	 open $fh, $file || (print "Can't open file refer to find_line script for debug");   # Open the file or print error message
 	 @lines  = <$fh>;																					
      @grepLine = grep(/^$string/, @lines); 
-     print @grepLine[0];
+     close $fh;
+     return @grepLine[0];
  }
- 
 
- 
+ # Return the file in array line by line
+ sub returnFile {
+	 $dir = @_[0];         # Dir for search (full serial number)
+	 $file = @_[1];        # Log file under search (log file with the *.console ending)
+	 $string = @_[2];      # String for the search
+	 $file = "$log_dir$dir/$file";
 	 
-
-
-
-	
- 
-
-
-#~ 
-#~ # Print the file line by line
-#~ sub PrintFile {
-   #~ my ($file) = "$log_dir/@_[0]";
-   #~ open(FILE, "<$file");
-   #~ while(<FILE>) {
-      #~ print $_, "<br>";
-   #~ }
-   #~ close(FILE);
-#~ }
+	 open $fh, $file || (print "Can't open file refer to find_line script for debug");   # Open the file or print error message
+	 @lines  = <$fh>;	
+	 close $fh;
+	 return @lines;
+}
 #~ 
 #~ 
 #~ # Return the test line given ("file , test to find)
@@ -385,8 +378,13 @@ print "Searching in dir: ","$n";
 
 foreach $z(@z) {
 	print "<br>found the file: $z<br>";
-	find_line $n,$z,"MAC";
+	print find_line $n,$z,"@tested_device[0]";  
 	print "<BR>";
+	@temp = returnFile $n,$z;
+	
+	foreach $temp(@temp) {
+		print $temp,"<br>";
+	}
 }
 print "<br>";
 }
