@@ -4,7 +4,7 @@
 
 
 # Location of the log files directory
-$log_dir = "/mnt/drop-log/release/compulab/console";
+$log_dir = "/mnt/atp/drop-log/release/compulab/console/";
 
 # Location of the bo.db file 
 $bo_dir = "/home/andrew/Desktop";

@@ -8,21 +8,20 @@
  #require "test.logs.pl";
  
  # create an instance of the CGI object 
- #$q = new CGI;
  $cgiobject =   new CGI;
  
  # Overide for "inc.pl" the original file don't work well TODO- fix inc.pl 
- $log_dir="/mnt/atp/drop-log/release/compulab/console";
+ #$log_dir="/mnt/atp/drop-log/release/compulab/console/";
 
  # grab the values submitted by the user
  $serial=$cgiobject->		param("serial_number");  # Serial number submited by the user
- $error=$cgiobject->        param("error_number");   # Error number submited by the user //Not implemented//
- $product=$cgiobject->      param("products");       # Search by product 
- $print_file=$cgiobject->   param("print_file");     # Check box if the user want to print the file and look directly at it
- $display_logs=$cgiobject-> param("display_logs");   # Display the logs //Need further evaluation//
- @tested_device=$cgiobject->param("tested_device");  # Dispaly in table mode the selected devices only
- $batch_line=$cgiobject->   param("batch_line");     # Dispaly the batch line of the product
- $summ=$cgiobject->         param("quick_summary");  # Quick summary of many logs // TODO - How the format will look table or text //
+ #$error=$cgiobject->        param("error_number");   # Error number submited by the user //Not implemented//
+ #$product=$cgiobject->      param("products");       # Search by product 
+ #$print_file=$cgiobject->   param("print_file");     # Check box if the user want to print the file and look directly at it
+ #$display_logs=$cgiobject-> param("display_logs");   # Display the logs //Need further evaluation//
+ #@tested_device=$cgiobject->param("tested_device");  # Dispaly in table mode the selected devices only
+ #$batch_line=$cgiobject->   param("batch_line");     # Dispaly the batch line of the product
+ #$summ=$cgiobject->         param("quick_summary");  # Quick summary of many logs // TODO - How the format will look table or text //
 
 
 
@@ -44,13 +43,13 @@ print $cgiobject -> h1("ATP logs summary");
  sub debug {	
 	print $cgiobject->p("The serial number is: $serial");
 	print $cgiobject->p("The log dir is:       $log_dir");
-	print $cgiobject->p("Error selected:       $error");   
-	print $cgiobject->p("Product selected:     $product");
-	print $cgiobject->p("Print file:           $print_file");
-	print $cgiobject->p("Display logs:         $display_logs");
-	print $cgiobject->p("Tested device:        @tested_device");
-	print $cgiobject->p("Batch line:           $batch_line");
-	print $cgiobject->p("Summ:                 $summ");
+	#print $cgiobject->p("Error selected:       $error");   
+	#print $cgiobject->p("Product selected:     $product");
+	#print $cgiobject->p("Print file:           $print_file");
+	#print $cgiobject->p("Display logs:         $display_logs");
+	#print $cgiobject->p("Tested device:        @tested_device");
+	#print $cgiobject->p("Batch line:           $batch_line");
+	#print $cgiobject->p("Summ:                 $summ");
  } 
 
 
@@ -66,10 +65,20 @@ print $cgiobject -> h1("ATP logs summary");
 	opendir (DIR, "$log_dir") || (print "Cannot open directory (look in the find_dir script)");
 	@numbers= grep {/$number/} readdir(DIR);
     @numbers = sort {$a cmp $b} @numbers;
+    print "You serching in the following dirrectories:","<br>";
+    print "----------------------------------------------------","<br>";
+    foreach $gh(@numbers)
+		{
+			print $gh;
+			print"<br>";
+		}
     closedir DIR;
     return @numbers;
  }
- 
+
+
+
+#print $test;
  # will return all the files that located in given dir. need to enter the full serial number (Enter serial number from find_dir)
  sub find_file {
 	 $number = @_[0];  
@@ -88,7 +97,6 @@ print $cgiobject -> h1("ATP logs summary");
 	 $file = @_[1];        # Log file under search (log file with the *.console ending)
 	 $string = @_[2];      # String for the search
 	 $file = "$log_dir$dir/$file";
-
 	 open $fh, $file || (print "Can't open file refer to find_line script for debug");   # Open the file or print error message
 	 @lines  = <$fh>;																					
      @grepLine = grep(/^$string/, @lines); 
@@ -108,19 +116,20 @@ print $cgiobject -> h1("ATP logs summary");
 	 close $fh;
 	 return @lines;
 }
+
 #~ 
 #~ 
 #~ # Return the test line given ("file , test to find)
 #~ #  File to test-
-#~ #  Tests to find
- #~ sub print_test {
- #~ my $string1 = "@_[1]";
- #~ my $src = "$log_dir$serial/@_[0].0.console";
- #~ open my $fh, $src;
- #~ my @lines = sort grep /\Q$string1/i, <$fh>;
- #~ close $fh;
- #~ return @lines[0];
- #~ }
+ 
+ # sub print_test {
+ # my $string1 = "@_[1]";
+ # my $src = "$log_dir$serial/@_[0].0.console";
+ # open my $fh, $src;
+ # my @lines = sort grep /\Q$string1/i, <$fh>;
+#  close $fh;
+ # return @lines[0];
+ # }
 #~ 
 	#~ # TODO - test if the following line actualy do somthing usefull
 	#~ $temp = print_test $number , "succes";
@@ -368,12 +377,11 @@ print $cgiobject -> h1("ATP logs summary");
 debug;
 print local_time;
 print "<br>";
-@i = find_dir $serial;
-
+@i = find_dir "$serial";
 
 
 foreach $n(@i) {
-print "Searching in dir: ","$n";
+print "Searching serial: ","$n" ;
 @z=find_file $n;
 
 foreach $z(@z) {
