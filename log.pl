@@ -2,7 +2,7 @@
 use CGI;
 
 
-require "/var/www/perl/inc.pl";
+#require "/var/www/perl/inc.pl";
 #require "/var/www/perl/s.log.pl";
 
 # create an instance of the CGI object 

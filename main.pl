@@ -3,7 +3,7 @@
  use Term::ANSIColor qw(:pushpop);
  use CGI qw/:standard :html3/;
  # All the directories are located in this file
- require "/var/www/perl/inc.pl";
+ #require "/var/www/perl/inc.pl";
  
  #require "test.logs.pl";
  
