@@ -3,7 +3,7 @@
  use Term::ANSIColor qw(:pushpop);
  use CGI qw/:standard :html3/;
  # All the directories are located in this file
- #require "/var/www/perl/inc.pl";
+ require "/var/www/inc.pl";
  
  #require "test.logs.pl";
  
@@ -12,7 +12,7 @@
  $cgiobject =   new CGI;
  
  # Overide for "inc.pl" the original file don't work well TODO- fix inc.pl 
- $log_dir="/mnt/drop-log/release/compulab/console/";
+ $log_dir="/mnt/atp/drop-log/release/compulab/console";
 
  # grab the values submitted by the user
  $serial=$cgiobject->		param("serial_number");  # Serial number submited by the user
