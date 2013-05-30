@@ -386,13 +386,16 @@ print "Searching serial: ","$n" ;
 
 foreach $z(@z) {
 	print "<br>found the file: $z<br>";
-	print find_line $n,$z,"@tested_device[0]";  
-	print "<BR>";
-	@temp = returnFile $n,$z;
+	print find_line $n,$z,"MOTHERBOARD";
+	print "<br>";  
+	print find_line $n,$z,"BOARD";
+	print find_line $n,$z,"BIOS";
+	print "<br>";
+	print find_line $n,$z,"CONFIG";
+	print "<br>";
+
 	
-	foreach $temp(@temp) {
-		print $temp,"<br>";
-	}
+
 }
 print "<br>";
 }
