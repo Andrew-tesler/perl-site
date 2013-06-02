@@ -7,7 +7,7 @@ require "/var/www/s.log.pl";
 
 # create an instance of the CGI object 
 $cgiobject = new CGI;
-$greeting="Please enter your search";
+$greeting="Please enter your search (Don't forget to mount enclosed-atp-srv:/var/opt/)";
 
 print $cgiobject->header;
 print $cgiobject->start_html(-title=>'ATP LOGS',-bgcolor=>'008980');
