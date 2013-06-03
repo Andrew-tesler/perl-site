@@ -72,6 +72,7 @@ print $cgiobject -> h1("ATP logs summary");
 			print $gh;
 			print"<br>";
 		}
+		print "----------------------------------------------------<br>";
     closedir DIR;
     return @numbers;
  }
@@ -97,7 +98,7 @@ print $cgiobject -> h1("ATP logs summary");
 	 $file = @_[1];        # Log file under search (log file with the *.console ending)
 	 $string = @_[2];      # String for the search
 	 $file = "$log_dir$dir/$file";
-	 open $fh, $file || (print "Can't open file refer to find_line script for debug");   # Open the file or print error message
+	 open $fh, $file || (print "Can't open file refer to find_line script for debug(Don't forget to mount enclosed-atp-srv:/var/opt/)");   # Open the file or print error message
 	 @lines  = <$fh>;																					
      @grepLine = grep(/^$string/, @lines); 
      close $fh;
@@ -381,9 +382,9 @@ print "<br>";
 
 
 foreach $n(@i) {
-print "Searching serial: ","$n" ;
+print "Found serial: ","$n" ;
 @z=find_file $n;
-
+print "<br>**************************************<br>";
 foreach $z(@z) {
 	print "<br>found the file: $z<br>";
 	print find_line $n,$z,"MOTHERBOARD";
@@ -397,5 +398,5 @@ foreach $z(@z) {
 	
 
 }
-print "<br>";
+print "<br>**************************************<br>";
 }
