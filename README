@@ -1,7 +1,13 @@
-This repo is for testing and implimitation of perl based site.
+Compulab logs of Enclosed products display site. Based on perl
 
-Working dir: /var/www/perl
+Will display only SBC Rev, Bios date and configuration as requested.
+Dir:
+Working directory /var/www
 
-In the directory: "/var/www/Shared" located all the files i want to share at work.
+bo.db on the desktop - Not really needed
 
-Added logs display site.
+mount enclosed-atp-srv:/var/opt /mnt on the local computer or change the dirs in inc.pl file.
+
+Andrew
+
+tesler.andrew@gmail.com
