@@ -48,7 +48,7 @@ print $cgiobject -> h1("ATP logs summary");
  # Accept number and search for the dir starting by that number (Enter number);
  sub find_dir {
 	$number = @_[0];
-	opendir (DIR, "$log_dir") || (print "Cannot open directory (look in the find_dir script)");
+	opendir (DIR, "$log_dir") || (print "Cannot open directory (look in the find_dir script, mount enclosed-atp-srv:/var/opt /mnt)");
 	@numbers= grep {/$number/} readdir(DIR);
     @numbers = sort {$a cmp $b} @numbers;
     print "You serching in the following dirrectories:","<br>";
